@@ -837,7 +837,7 @@ input, select, textarea {
 		top: 0;
 		width: 22.5em;
 		height: 100%;
-		background: #fff;
+		background: #1f1f1f;
 		outline: 0;
 		overflow-x: hidden;
 		overflow-y: auto;
@@ -888,7 +888,7 @@ input, select, textarea {
 		@media screen and (max-width: 980px) {
 
 			#main {
-				background: rgba(255, 255, 255, 0.925);
+				background: #1f1f1f;
 			}
 
 				#main .toggle {
