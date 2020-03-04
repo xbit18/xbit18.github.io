@@ -6,6 +6,7 @@
 -->
 <html lang="en">
 	<head>
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
                 <!-- Global site tag (gtag.js) - Google Analytics -->
 			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120846230-2"></script>
 			<script>
@@ -254,9 +255,15 @@
 												<input type="email" name="email" id="email"/>
 											</div>
 											<div class="field">
+												<label for="subject">Subject</label>
+												<input type="text" name="_subject" id="subject"/>
+											</div>
+											<div class="field">
 												<label for="message">Message</label>
 												<textarea name="message" id="message" rows="6"></textarea>
 											</div>
+											<div class="g-recaptcha field" data-sitekey="6Leoz94UAAAAAF5zIFuK2Y6kzyuShJz4o6v-evYO"></div>
+											<br/>
 										</div>
 										<ul class="actions">
 											<li><input type="submit" name="submit" id="submit" value="Send Message" /></li>
