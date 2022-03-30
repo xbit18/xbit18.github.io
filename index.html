@@ -31,7 +31,7 @@
 			<div id="wrapper" class="divided" >
 
 				<!-- One -->
-					<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right invert" id="top">
+					<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-content-fade-right invert" id="top">
 						<div class="content">
 							<h1><b>Welcome!</b></h1>
 							<p class="major">My name's Giacomo, I'm 24 and I'm a Computer Science student at the University of L'Aquila, Italy</p>
@@ -45,12 +45,13 @@
 					</section>
 
 				<!-- Two -->
-					<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in invert" id="coding">
+					<section class="spotlight style1 orient-right content-align-left image-position-center  invert" id="coding"> <!-- onscroll-image-fade-in -->
 						<div class="content">
 							<h2>Coding</h2>
-							<p>As a Computer Science student I'm interested in coding and in learning new technologies. My favourite languages and technologies are HTML, PHP, Javascript and all that concerns web-development.</p>
+							<p>As a Computer Science student I'm interested in coding and in learning new technologies. My favourite languages and technologies are HTML, PHP, Javascript and all that concerns web-development. </br>
+								Go ahead to see some of the projects I worked on, both personal and academic ones.</p>
 							<ul class="actions stacked">
-								<li><a href="#3dprinting" class="button big wide smooth-scroll-middle">Keep going</a></li>
+								<li><a href="#pomodoro" class="button big wide smooth-scroll-middle">Keep going</a></li>
 							</ul>
 						</div>
 						<div class="image">
@@ -58,8 +59,26 @@
 						</div>
 					</section>
 
+					<section class="spotlight style1 orient-left content-align-left image-position-center invert" id="pomodoro">
+						<div class="content">
+							<h2>Lofi Pomodoro Timer</h2>
+							<p>
+								Very simple pomodoro timer (inspired by <a href="pomofocus.com">Pomofocus</a>) with a built-in lofi hip-hop radio from <a href="https://www.youtube.com/channel/UCSJ4gkVC6NrvII8umztf0Ow">Lofi Girl</a></br>
+								<b>Technologies:</b> HTML5, CSS, Javascript (JQuery, <a href="https://albert-gonzalez.github.io/easytimer.js/">Easytimer</a> library)</p>
+
+							<ul class="actions">
+								<li><a href="./pomodoro.html" class="button big wide smooth-scroll-middle">Check it out</a></li>
+								<li><a href="#3dprinting" class="button big wide smooth-scroll-middle">Keep going</a></li>
+							</ul>
+							
+						</div>
+						<div class="image overlay">
+							<img src="images/pomodoro.png" alt="" />
+						</div>
+					</section>
+
 				<!-- Three -->
-					<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in invert" id="3dprinting">
+					<section class="spotlight style1 orient-right content-align-left image-position-center invert" id="3dprinting">
 						<div class="content">
 							<h2>3D Printing</h2>
 							<p>I've discovered 3D printing several years ago and after buying my first printer (Creality Ender 3) I've become more and more passionate about it. It's an incredibly powerful technology since it allows you to basically go from a virtual 3D model to a solid object in a matter of hours. It's great for prototyping!</p>
@@ -72,7 +91,7 @@
 						</div>
 					</section>
 
-				<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in invert" id="astronomy">
+				<section class="spotlight style1 orient-left content-align-left image-position-center invert" id="astronomy">
 					<div class="content">
 						<h2>Astronomy</h2>
 						<p>Some years ago my uncle gave me a telescope (Skywatcher 130/900) and since then I've spent dozens of hours looking at the nightsky, the Moon, Mars, Jupiter, Saturn, and so on. <br/>You can find some astro-photos on my <a target="_blank" href="https://www.instagram.com/sfrat_">Instagram page</a>.</p>
@@ -86,7 +105,7 @@
 				</section>
 
 				<!-- Four -->
-					<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in invert" id="photography">
+					<section class="spotlight style1 orient-right content-align-left image-position-center invert" id="photography">
 						<div class="content">
 							<h2>Photography</h2>
 							<p>I've become very interested in photography a few years ago, I started with my smartphone (iPhone 5c, now iPhone SE) and I've recently "upgraded" to an analog camera (Yashica FX-3). I really like the feel and colors of film, because for some reason it has a more "realistic" feel than digital photography.</p>
@@ -98,6 +117,8 @@
 							<img src="images/spotlight04.jpg" alt="" />
 						</div>
 					</section>
+				
+					
 
                 <section class="wrapper style1 align-center invert" id="portfolio">
                     <div class="inner">
@@ -108,7 +129,7 @@
 						</ul>
 					</div>
 						<!-- Gallery, thumbs are 400 x 278 -->
-							<div class="gallery style2 small lightbox onscroll-fade-in">
+							<div class="gallery style2 small lightbox"> <!-- onscroll-fade-in -->
 								<article>
 									<a href="images/gallery/fulls/01.jpg" class="image">
 										<img src="images/gallery/thumbs/01.jpg" alt="" />
