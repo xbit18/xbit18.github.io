@@ -66,16 +66,19 @@ $('#LongPauseTimer .resetButton').click(function () {
 });
 
 focus_timer.addEventListener('secondsUpdated', function (e) {
+    $('title').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#FocusTimer .values').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#FocusTimer .progress_bar').html($('#FocusTimer .progress_bar').html() + '.');
 });
 
 pause_timer.addEventListener('secondsUpdated', function (e) {
+    $('title').html(pause_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#PauseTimer .values').html(pause_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#PauseTimer .progress_bar').html($('#PauseTimer .progress_bar').html() + '.');
 });
 
 longpause_timer.addEventListener('secondsUpdated', function (e) {
+    $('title').html(longpause_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#LongPauseTimer .values').html(longpause_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#LongPauseTimer .progress_bar').html($('#LongPauseTimer .progress_bar').html() + '.');
 });
@@ -196,6 +199,11 @@ function loadVideo() {
       loadVideo();
     });
   });
+
+  function updateTitle(){
+      
+    document.title = $('#FocusTimer .values').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
+  }
 
   // Get the element with id="defaultOpen" and click on it
 document.getElementById("focus").click();
