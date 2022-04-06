@@ -5,6 +5,7 @@ var TIMER = 25
 var PAUSE = 5
 var LONGPAUSE = 15
 var COUNTER = 0
+var secondsCounter = 0
 var bell = new Audio("assets/audio/zapsplat_bells_small_timer_ping_constant_loop_58348.mp3")
 var click = new Audio("assets/audio/click.mp3")
 $('#FocusTimer .startButton').click(function () {
@@ -66,6 +67,7 @@ $('#LongPauseTimer .resetButton').click(function () {
 });
 
 focus_timer.addEventListener('secondsUpdated', function (e) {
+    secondsCounter += 1;
     $('title').html("Focus: " + focus_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#FocusTimer .values').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
     $('#FocusTimer .progress_bar').html($('#FocusTimer .progress_bar').html() + '.');
@@ -86,6 +88,10 @@ longpause_timer.addEventListener('secondsUpdated', function (e) {
 focus_timer.addEventListener('targetAchieved', function (e) {
     $('#FocusTimer .progress_bar').html('COMPLETE!!');
     COUNTER++
+    var hours = Math.trunc(secondsCounter/3600)
+    var minutes = Math.trunc((secondsCounter - (hours*3600)) / 60)
+    var seconds = secondsCounter - (minutes*60 + hours*3600)
+    $('#totaltime').html(hours + " Hours " + minutes + " Minutes and " + seconds + " Seconds")
     bell.play()
     if(COUNTER < 4){
         document.getElementById("pause").click();
