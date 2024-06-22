@@ -1,0 +1,197 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+    font-size: larger;
+}
+
+h1 {
+    font-size: 120px;
+    margin: 20px;
+}
+
+/* Style tab links */
+.tablink {
+    /* background-color: #555; */
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 33.333333%;
+}
+
+.tablink:hover {
+    background-color: #777;
+}
+
+#focus.tablink {
+    background-color: #ff2525;
+}
+
+#pause.tablink {
+    background-color: #48c348;
+}
+
+#longpause.tablink {
+    background-color: #417be7;
+}
+
+#focus.tablink:hover {
+    background-color: #e01616;
+}
+
+#pause.tablink:hover {
+    background-color: #2faf2f;
+}
+
+#longpause.tablink:hover {
+    background-color: #245fce;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: white;
+    display: none;
+    padding-top: 100px;
+    height: 100%;
+}
+
+#Focus {
+    background-color: #ff2525;
+}
+
+#Pause {
+    background-color: #48c348;
+}
+
+#LongPause {
+    background-color: #417be7;
+}
+
+.inner {
+    text-align: center;
+}
+
+.outer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.tenpxpadding {
+    font-size: 75px;
+    /* margin: 100px; */
+}
+
+.pauseButton {
+    background-color: #ffd900;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #2a2a2a;
+    font-size: 18px;
+    padding: 16px 18px;
+    text-decoration: none;
+    border-width: 0px;
+}
+
+.pauseButton:hover {
+    background-color: #ffa200;
+}
+
+.pauseButton:active {
+    position: relative;
+    top: 1px;
+}
+
+.startButton {
+    background-color: #35de92;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #2a2a2a;
+    font-size: 18px;
+    padding: 16px 18px;
+    text-decoration: none;
+    border-width: 0px;
+}
+
+.startButton:hover {
+    background-color: #00b865;
+}
+
+.startButton:active {
+    position: relative;
+    top: 1px;
+}
+
+.stopButton {
+    background-color: #d61717;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 16px 18px;
+    text-decoration: none;
+    border-width: 0px;
+}
+
+.stopButton:hover {
+    background-color: #990000;
+}
+
+.stopButton:active {
+    position: relative;
+    top: 1px;
+}
+
+.resetButton {
+    background-color: #2591d9;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 16px 18px;
+    text-decoration: none;
+    border-width: 0px;
+}
+
+.resetButton:hover {
+    background-color: #006b8f;
+}
+
+.resetButton:active {
+    position: relative;
+    top: 1px;
+}
+
+#FocusTimer .values {
+    background-color: #ff6f6f;
+    border-radius: 10px;
+    margin: 0px 825px 20px 825px;
+    padding: 15px;
+}
+
+#PauseTimer .values {
+    background-color: #76e476;
+    border-radius: 10px;
+    margin: 0px 825px 20px 825px;
+    padding: 15px
+}
+
+#LongPauseTimer .values {
+    background-color: #88adf1;
+    border-radius: 10px;
+    margin: 0px 825px 20px 825px;
+    padding: 15px
+}
+
+#player {
+    padding-top: 20px;
+}
