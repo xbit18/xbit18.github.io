@@ -182,15 +182,17 @@ h1 {
 #PauseTimer .values {
     background-color: #76e476;
     border-radius: 10px;
-    margin: 0px 825px 20px 825px;
-    padding: 15px
+    margin: 0px auto 20px auto;
+    width: fit-content;
+    padding: 15px;
 }
 
 #LongPauseTimer .values {
     background-color: #88adf1;
     border-radius: 10px;
-    margin: 0px 825px 20px 825px;
-    padding: 15px
+    margin: 0px auto 20px auto;
+    width: fit-content;
+    padding: 15px;
 }
 
 #player {
