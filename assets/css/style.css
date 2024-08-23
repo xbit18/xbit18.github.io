@@ -174,7 +174,8 @@ h1 {
 #FocusTimer .values {
     background-color: #ff6f6f;
     border-radius: 10px;
-    margin: 0px 825px 20px 825px;
+    margin: 0px auto 20px auto;
+    width: fit-content;
     padding: 15px;
 }
 
