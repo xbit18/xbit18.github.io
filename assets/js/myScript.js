@@ -2,111 +2,100 @@ var TIMER = 25
 var PAUSE = 5
 var LONGPAUSE = 15
 var COUNTER = 0
-var focus_timer = new easytimer.Timer({countdown: true, precision: 'seconds', startValues: {minutes: TIMER}});
-var pause_timer = new easytimer.Timer({countdown: true, precision: 'seconds', startValues: {minutes: PAUSE}});
-var longpause_timer = new easytimer.Timer({countdown: true, precision: 'seconds', startValues: {minutes: LONGPAUSE}});
+var timer = new easytimer.Timer();
 var bell = new Audio("assets/audio/zapsplat_bells_small_timer_ping_constant_loop_58348.mp3")
 var click = new Audio("assets/audio/click.mp3")
-var activePage = "Focus"
+var activePage = ""
+var activeTimer = ""
 
 var content = {
-    "Focus": ["Focus", "Focus on your task of choice!", "#ff2525", "#ff6f6f", "25:00", focus_timer],
-    "Pause": ["Short Break", "Time for a little break!", "#48c348", " #76e476", "05:00", pause_timer],
-    "LongPause": ["Long Break", "Time for a deserved long break!", "#417be7", "#88adf1", "15:00", longpause_timer]
+    "Focus": ["Focus", "Focus on your task of choice!", "#ff2525", "#ff6f6f", "25:00", 25],
+    "Pause": ["Short Break", "Time for a little break!", "#48c348", " #76e476", "05:00", 5],
+    "LongPause": ["Long Break", "Time for a deserved long break!", "#417be7", "#88adf1", "15:00", 15]
 }
+
+function startTimer(type){
+    if(activeTimer != type || !(timer.isRunning() || timer.isPaused())){
+        timer.stop();
+        timer.start({countdown: true, precision: 'seconds', startValues: {minutes: content[type][5]}});
+    } else {
+        timer.start()
+    }
+    activeTimer = type
+}
+
 $('#startButton').click(function () {
     if (activePage == "Focus") {
-        pause_timer.stop();
-        longpause_timer.stop();
-        focus_timer.start();
+        startTimer("Focus")
+        //console.log("Focus Timer Started")
     } else if (activePage == "Pause") {
-        focus_timer.stop();
-        longpause_timer.stop();
-        pause_timer.start();
+        startTimer("Pause")
+        //console.log("Pause Timer Started")
     } else if (activePage == "LongPause") {
-        focus_timer.stop();
-        pause_timer.stop();
-        longpause_timer.start();
+        startTimer("LongPause")
+        //console.log("Long Pause Timer Started")
     }
     click.play()
 });
 
 $('#pauseButton').click(function () {
-    timer = content[activePage][5]
-    timer.pause();
+    if(activePage == activeTimer){
+        timer.pause();
+        //console.log("Paused")
+    }
 });
 
 $('#stopButton').click(function () {
-    timer = content[activePage][5]
-    timer.stop();
-    setTimerValues()
+    if(activePage == activeTimer && (timer.isRunning() || timer.isPaused())){
+        timer.stop();
+        setTimerValues()
+        //console.log("Stopped")
+    }
 });
 
 $('#resetButton').click(function () {
-    timer = content[activePage][5]
-    if(timer.isRunning() || timer.isPaused()){
+    if(activePage == activeTimer && (timer.isRunning() || timer.isPaused())){
         timer.reset();
         setTimerValues()
+        //console.log("Reset")
     }
 });
 
-focus_timer.addEventListener('secondsUpdated', function (e) {
-    setTimerValues()
+timer.addEventListener('secondsUpdated', function (e) {
+    if(activePage == activeTimer){
+        setTimerValues()
+    }
     updateTitle()
 });
 
-pause_timer.addEventListener('secondsUpdated', function (e) {
-    setTimerValues()
-    updateTitle()
-});
-
-longpause_timer.addEventListener('secondsUpdated', function (e) {
-    setTimerValues()
-    updateTitle()
-});
-
-focus_timer.addEventListener('targetAchieved', function (e) {
+timer.addEventListener('targetAchieved', function (e) {
     bell.play()
+    if(activeTimer == "Focus"){
+        COUNTER++
 
-    COUNTER++
+        var totalSeconds = COUNTER * 25 * 60
+        var hours = Math.trunc(totalSeconds/3600)
+        var minutes = Math.trunc((totalSeconds - (hours*3600)) / 60)
+        
+        $('#totaltime').html(hours + " Hours and " + minutes + " Minutes")
 
-    var totalSeconds = COUNTER * 25 * 60
-    var hours = Math.trunc(totalSeconds/3600)
-    var minutes = Math.trunc((totalSeconds - (hours*3600)) / 60)
-    
-    $('#totaltime').html(hours + " Hours and " + minutes + " Minutes")
-
-    if(COUNTER % 4 != 0){
-        openPage("Pause")
-        pause_timer.start();
-    } else {
-        openPage("LongPause")
-        longpause_timer.start();
+        if(COUNTER % 4 != 0){
+            openPage("Pause")
+            startTimer("Pause")
+        } else {
+            openPage("LongPause")
+            startTimer("LongPause")
+        }
+    } else if (activeTimer == "Pause"){
+        openPage("Focus")
+        startTimer("Focus")
     }
 });
 
-pause_timer.addEventListener('targetAchieved', function (e) {
-    bell.play()
-    openPage("Focus")
-    focus_timer.start();
-});
-
-longpause_timer.addEventListener('targetAchieved', function (e) {
-    bell.play()
-    openPage("Focus")
-    focus_timer.start();
-});
-
-focus_timer.addEventListener('started', function (e) {
-    $('#timerValues').html(setTimerValues());
-});
-
-pause_timer.addEventListener('started', function (e) {
-    $('#timerValues').html(setTimerValues());
-});
-
-longpause_timer.addEventListener('started', function (e) {
-    $('#timerValues').html(setTimerValues());
+timer.addEventListener('started', function (e) {
+    if(activePage == activeTimer){
+        setTimerValues()
+    }
 });
 
 function openPage(pageName) {
@@ -140,12 +129,12 @@ function openPage(pageName) {
 }
 
 function getTimerValues(){
-    timer = content[activePage][5]
-    if(timer.isRunning() || timer.isPaused()){
-        return timer.getTimeValues().toString(['minutes', 'seconds']);
-    } else {
-        return content[activePage][4];
+    if(activePage == activeTimer){
+        if(timer.isRunning() || timer.isPaused()){
+            return timer.getTimeValues().toString(['minutes', 'seconds']);
+        } 
     }
+    return content[activePage][4];
 }
 
 function setTimerValues(){
@@ -183,9 +172,9 @@ $.getScript("https://www.youtube.com/iframe_api", function() {
 });
 });
 
-function updateTitle(string, timer){
-    document.title = string + ": " + getTimerValues();
+function updateTitle(){
+    document.title = activeTimer + ": " + timer.getTimeValues().toString(['minutes', 'seconds']);
 }
 
   // Get the element with id="defaultOpen" and click on it
-document.getElementById("focus").click();
+openPage("Focus")
