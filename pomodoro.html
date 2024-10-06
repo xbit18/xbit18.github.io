@@ -6,65 +6,29 @@
         <title>Pomolofi</title>
     </head>
     <body id="request">
-        <button id="focus" class="tablink focus" onclick="openPage('Focus', this, '#ff2525')"><b>Focus</b></button>
-        <button id="pause" class="tablink " onclick="openPage('Pause', this, '#48c348')" id="defaultOpen"><b>Short Break</b></button>
-        <button id="longpause" class="tablink" onclick="openPage('LongPause', this, '#417be7')"><b>Long Break</b></button>
-        <!-- <button class="tablink" onclick="openPage('About', this, 'orange')">About</button> -->
-
-        <div id="Focus" class="tabcontent outer">
-                <div id="FocusTimer" class="inner">
-                    <h1>Focus</h1>
-                    <p>Focus on your task of choice!</p>
-                <!-- <input type="number" id="minutes"> -->
-                    <div class="values tenpxpadding">25:00</div>
-                    <!-- <div class="progress_bar">.</div> -->
-                    <div>
-                        <button class="startButton">Start</button>
-                        <button class="pauseButton" >Pause</button>
-                        <button class="stopButton">Stop</button>
-                        <button class="resetButton">Reset</button>
+        <div id="pinInPlace">
+            <button id="focus" class="tablink focus" onclick="openPage('Focus', this)"><b>Focus</b></button>
+            <button id="pause" class="tablink " onclick="openPage('Pause', this)" id="defaultOpen"><b>Short Break</b></button>
+            <button id="longpause" class="tablink" onclick="openPage('LongPause', this)"><b>Long Break</b></button>
+        </div>
+        <!-- <div id="spacer"></div> -->
+        <div id="Wrapper" class="tabcontent">
+            <div class="centerVertical">
+                <div id="Timer">
+                    <h1 id="modeTitle">Focus</h1>
+                    <p id="subtitle">Focus on your task of choice!</p>
+                    <div id="timerValues">25:00</div>
+                    <div id="timerButtons">
+                        <button id="startButton" class="timerButton">Start</button>
+                        <button id="pauseButton" class="timerButton" >Pause</button>
+                        <button id="stopButton" class="timerButton">Stop</button>
+                        <button id="resetButton" class="timerButton">Reset</button>
                     </div>
-                    <div id="player"></div>
-                    <div><p>Today you stayed focused for </p><p id="totaltime">0 Hours 0 Minutes and 0 Seconds</p></div>
+                    <div><p>Today you've been focused for </p><p id="totaltime">0 Hours and 0 Minutes</p></div>
                 </div>
-        </div>
- 
-        <div id="Pause" class="tabcontent outer">
-            <div id="PauseTimer" class="inner">
-                <h1>Short Break</h1>
-                <p>Time for a little break!</p>
-                <!-- <input type="number" id="minutes"> -->
-                <div class="values tenpxpadding">05:00</div>
-                <!-- <div class="progress_bar">.</div> -->
-                <div>
-                    <button class="startButton">Start</button>
-                    <button class="pauseButton" >Pause</button>
-                    <button class="stopButton">Stop</button>
-                    <button class="resetButton">Reset</button>
-                </div>
+                <div id="player"></div>
             </div>
         </div>
-
-        <div id="LongPause" class="tabcontent outer">
-            <div id="LongPauseTimer" class="inner">
-                <h1>Long Break</h1>
-                <p>Time for a deserved long break!</p>
-                <!-- <input type="number" id="minutes"> -->
-                <div class="values tenpxpadding">15:00</div>
-                <!-- <div class="progress_bar">.</div> -->
-                <div>
-                    <button class="startButton">Start</button>
-                    <button class="pauseButton" >Pause</button>
-                    <button class="stopButton">Stop</button>
-                    <button class="resetButton">Reset</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- <div id="About" class="tabcontent">
-        <h1>About</h1>
-        <p>Who we are and what we do.</p>
-        </div> -->
 
         <script type="text/javascript" id="www-widgetapi-script" src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflS50iB-/www-widgetapi.js" async=""></script>
         <script src="https://www.youtube.com/player_api"></script>

@@ -1,186 +1,163 @@
-var focus_timer = new easytimer.Timer();
-var pause_timer = new easytimer.Timer();
-var longpause_timer = new easytimer.Timer();
 var TIMER = 25
 var PAUSE = 5
 var LONGPAUSE = 15
 var COUNTER = 0
-var secondsCounter = 0
+var focus_timer = new easytimer.Timer({countdown: true, precision: 'seconds', startValues: {minutes: TIMER}});
+var pause_timer = new easytimer.Timer({countdown: true, precision: 'seconds', startValues: {minutes: PAUSE}});
+var longpause_timer = new easytimer.Timer({countdown: true, precision: 'seconds', startValues: {minutes: LONGPAUSE}});
 var bell = new Audio("assets/audio/zapsplat_bells_small_timer_ping_constant_loop_58348.mp3")
 var click = new Audio("assets/audio/click.mp3")
-$('#FocusTimer .startButton').click(function () {
-    /* chosen = parseInt(document.getElementById("minutes").value);
-    console.log(chosen); */
-    focus_timer.start({countdown: true, precision: 'seconds', startValues: {minutes: TIMER}});
+var activePage = "Focus"
+
+var content = {
+    "Focus": ["Focus", "Focus on your task of choice!", "#ff2525", "#ff6f6f", "25:00", focus_timer],
+    "Pause": ["Short Break", "Time for a little break!", "#48c348", " #76e476", "05:00", pause_timer],
+    "LongPause": ["Long Break", "Time for a deserved long break!", "#417be7", "#88adf1", "15:00", longpause_timer]
+}
+$('#startButton').click(function () {
+    if (activePage == "Focus") {
+        pause_timer.stop();
+        longpause_timer.stop();
+        focus_timer.start();
+    } else if (activePage == "Pause") {
+        focus_timer.stop();
+        longpause_timer.stop();
+        pause_timer.start();
+    } else if (activePage == "LongPause") {
+        focus_timer.stop();
+        pause_timer.stop();
+        longpause_timer.start();
+    }
     click.play()
 });
 
-$('#PauseTimer .startButton').click(function () {
-    /* chosen = parseInt(document.getElementById("minutes").value);
-    console.log(chosen); */
-    pause_timer.start({countdown: true, precision: 'seconds', startValues: {minutes: PAUSE}});
+$('#pauseButton').click(function () {
+    timer = content[activePage][5]
+    timer.pause();
 });
 
-$('#LongPauseTimer .startButton').click(function () {
-    /* chosen = parseInt(document.getElementById("minutes").value);
-    console.log(chosen); */
-    longpause_timer.start({countdown: true, precision: 'seconds', startValues: {minutes: LONGPAUSE}});
+$('#stopButton').click(function () {
+    timer = content[activePage][5]
+    timer.stop();
+    setTimerValues()
 });
 
-$('#FocusTimer .pauseButton').click(function () {
-    focus_timer.pause();
-});
-
-$('#PauseTimer .pauseButton').click(function () {
-    pause_timer.pause();
-});
-
-$('#LongPauseTimer .pauseButton').click(function () {
-    longpause_timer.pause();
-});
-
-$('#FocusTimer .stopButton').click(function () {
-    focus_timer.stop();
-});
-
-$('#PauseTimer .stopButton').click(function () {
-    pause_timer.stop();
-});
-
-$('#LongPauseTimer .stopButton').click(function () {
-    longpause_timer.stop();
-});
-
-$('#FocusTimer .resetButton').click(function () {
-    focus_timer.reset();
-    focus_timer.stop();
-});
-
-$('#PauseTimer .resetButton').click(function () {
-    pause_timer.reset();
-    pause_timer.stop();
-});
-
-$('#LongPauseTimer .resetButton').click(function () {
-    longpause_timer.reset();
-    longpause_timer.stop();
+$('#resetButton').click(function () {
+    timer = content[activePage][5]
+    if(timer.isRunning() || timer.isPaused()){
+        timer.reset();
+        setTimerValues()
+    }
 });
 
 focus_timer.addEventListener('secondsUpdated', function (e) {
-    secondsCounter += 1;
-    $('title').html("Focus: " + focus_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#FocusTimer .values').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#FocusTimer .progress_bar').html($('#FocusTimer .progress_bar').html() + '.');
+    setTimerValues()
+    updateTitle()
 });
 
 pause_timer.addEventListener('secondsUpdated', function (e) {
-    $('title').html("Short Break: " + pause_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#PauseTimer .values').html(pause_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#PauseTimer .progress_bar').html($('#PauseTimer .progress_bar').html() + '.');
+    setTimerValues()
+    updateTitle()
 });
 
 longpause_timer.addEventListener('secondsUpdated', function (e) {
-    $('title').html("Long Break: " + longpause_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#LongPauseTimer .values').html(longpause_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#LongPauseTimer .progress_bar').html($('#LongPauseTimer .progress_bar').html() + '.');
+    setTimerValues()
+    updateTitle()
 });
 
 focus_timer.addEventListener('targetAchieved', function (e) {
-    $('#FocusTimer .progress_bar').html('COMPLETE!!');
-    COUNTER++
-    var hours = Math.trunc(secondsCounter/3600)
-    var minutes = Math.trunc((secondsCounter - (hours*3600)) / 60)
-    var seconds = secondsCounter - (minutes*60 + hours*3600)
-    $('#totaltime').html(hours + " Hours " + minutes + " Minutes and " + seconds + " Seconds")
     bell.play()
-    if(COUNTER < 4){
-        document.getElementById("pause").click();
-        pause_timer.start({countdown: true, precision: 'seconds', startValues: {minutes: PAUSE}});
+
+    COUNTER++
+
+    var totalSeconds = COUNTER * 25 * 60
+    var hours = Math.trunc(totalSeconds/3600)
+    var minutes = Math.trunc((totalSeconds - (hours*3600)) / 60)
+    
+    $('#totaltime').html(hours + " Hours and " + minutes + " Minutes")
+
+    if(COUNTER % 4 != 0){
+        openPage("Pause")
+        pause_timer.start();
     } else {
-        COUNTER = 0
-        document.getElementById("longpause").click();
-        longpause_timer.start({countdown: true, precision: 'seconds', startValues: {minutes: LONGPAUSE}});
+        openPage("LongPause")
+        longpause_timer.start();
     }
 });
 
 pause_timer.addEventListener('targetAchieved', function (e) {
     bell.play()
-    $('#PauseTimer .progress_bar').html('COMPLETE!!');
-    document.getElementById("focus").click();
-    focus_timer.start({countdown: true, precision: 'seconds', startValues: {minutes: TIMER}});
+    openPage("Focus")
+    focus_timer.start();
 });
 
 longpause_timer.addEventListener('targetAchieved', function (e) {
     bell.play()
-    $('#LongPauseTimer .progress_bar').html('COMPLETE!!');
-    document.getElementById("focus").click();
-    focus_timer.start({countdown: true, precision: 'seconds', startValues: {minutes: TIMER}});
+    openPage("Focus")
+    focus_timer.start();
 });
 
 focus_timer.addEventListener('started', function (e) {
-    $('#FocusTimer .values').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
+    $('#timerValues').html(setTimerValues());
 });
 
 pause_timer.addEventListener('started', function (e) {
-    $('#PauseTimer .values').html(pause_timer.getTimeValues().toString(['minutes', 'seconds']));
+    $('#timerValues').html(setTimerValues());
 });
 
 longpause_timer.addEventListener('started', function (e) {
-    $('#LongPauseTimer .values').html(longpause_timer.getTimeValues().toString(['minutes', 'seconds']));
+    $('#timerValues').html(setTimerValues());
 });
 
-focus_timer.addEventListener('reset', function (e) {
-    $('#FocusTimer .values').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#FocusTimer .progress_bar').html('.');
-});
+function openPage(pageName) {
+  
+    // Remove white background, make it match color of the button
+    document.getElementsByTagName("body")[0].style.background = content[pageName][2];
 
-pause_timer.addEventListener('reset', function (e) {
-    $('#PauseTimer .values').html(pause_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#PauseTimer .progress_bar').html('.');
-});
+    document.getElementById("pause").style.borderRadius = "0px";
+    document.getElementById("focus").style.borderRadius = "0px";
+    document.getElementById("longpause").style.borderRadius = "0px";
 
-longpause_timer.addEventListener('reset', function (e) {
-    $('#LongPauseTimer .values').html(longpause_timer.getTimeValues().toString(['minutes', 'seconds']));
-    $('#LongPauseTimer .progress_bar').html('.');
-});
-
-function openPage(pageName, elmnt, color) {
-    // Hide all elements with class="tabcontent" by default */
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+    if(pageName == "Focus"){
+        document.getElementById("pause").style.borderRadius = "0px 0px 0px 10px";
+    } else if (pageName == "Pause"){
+        document.getElementById("focus").style.borderRadius = "0px 0px 10px 0px";
+        document.getElementById("longpause").style.borderRadius = "0px 0px 0px 10px";
+    } else if (pageName == "LongPause"){
+        document.getElementById("pause").style.borderRadius = "0px 0px 10px 0px";
     }
-  
-    // Remove the background color of all tablinks/buttons
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].style.backgroundColor = "";
+
+    
+    // Change color and text based on the mode
+    document.getElementById("modeTitle").innerHTML = content[pageName][0];
+    document.getElementById("subtitle").innerHTML = content[pageName][1];
+    document.getElementById("Wrapper").style.background = content[pageName][2];
+    document.getElementById("timerValues").style.background = content[pageName][3];
+    document.getElementById("pinInPlace").style.background = content[pageName][2];
+
+    activePage = pageName
+    setTimerValues();
+}
+
+function getTimerValues(){
+    timer = content[activePage][5]
+    if(timer.isRunning() || timer.isPaused()){
+        return timer.getTimeValues().toString(['minutes', 'seconds']);
+    } else {
+        return content[activePage][4];
     }
-  
-    // Show the specific tab content
-    document.getElementById(pageName).style.display = "block";
-  
-    // Add the specific color to the button used to open the tab content
-    elmnt.style.backgroundColor = color;
-  }
-  
-/* var player;
-function onYouTubeIframeAPIReady() {
-player = new YT.Player('playeriframe', {
-    playerVars: { 'autoplay': 1, 'controls': 0 },
-    events: {
-    'onReady': onPlayerReady,
-    'onStateChange': onPlayerStateChange
-    }
-});
-} */
+}
+
+function setTimerValues(){
+    document.getElementById("timerValues").innerHTML = getTimerValues();
+}
+    
 
 function loadVideo() {
     window.YT.ready(function() {
       new window.YT.Player("player", {
-        height: "390",
-        width: "640",
+        height: "350",
+        width: "500",
         videoId: "jfKfPfyJRdk",
         events: {
           onReady: onPlayerReady,
@@ -195,22 +172,20 @@ function loadVideo() {
   
     function onPlayerStateChange(event) {
       var videoStatuses = Object.entries(window.YT.PlayerState)
-      console.log(videoStatuses.find(status => status[1] === event.data)[0])
       event.target.setVolume(25);
     }
   }
   
-  $(document).ready(function() {
-    $.getScript("https://www.youtube.com/iframe_api", function() {
-      loadVideo();
-    });
-  });
+$(document).ready(function() {
 
-  function updateTitle(){
-      
-    document.title = $('#FocusTimer .values').html(focus_timer.getTimeValues().toString(['minutes', 'seconds']));
-  }
+$.getScript("https://www.youtube.com/iframe_api", function() {
+    loadVideo();
+});
+});
+
+function updateTitle(string, timer){
+    document.title = string + ": " + getTimerValues();
+}
 
   // Get the element with id="defaultOpen" and click on it
 document.getElementById("focus").click();
-$(document).ready(function(){ $(".disclaimer").remove(); });

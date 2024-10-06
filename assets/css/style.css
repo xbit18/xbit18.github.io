@@ -1,14 +1,20 @@
 body,
 html {
+
     height: 100%;
-    margin: 0;
+    margin: 0px;
     font-family: Arial;
-    font-size: larger;
 }
 
 h1 {
-    font-size: 120px;
-    margin: 20px;
+    font-size: 4em;
+    margin: 0px;
+}
+
+p {
+    font-size: medium;
+    padding-top: 15px;
+    margin: 0px;
 }
 
 /* Style tab links */
@@ -19,13 +25,9 @@ h1 {
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
-    font-size: 17px;
+    padding: 0.5em;
+    font-size: medium;
     width: 33.333333%;
-}
-
-.tablink:hover {
-    background-color: #777;
 }
 
 #focus.tablink {
@@ -40,51 +42,27 @@ h1 {
     background-color: #417be7;
 }
 
-#focus.tablink:hover {
-    background-color: #e01616;
-}
-
-#pause.tablink:hover {
-    background-color: #2faf2f;
-}
-
-#longpause.tablink:hover {
-    background-color: #245fce;
-}
-
 /* Style the tab content (and add height:100% for full page content) */
 .tabcontent {
     color: white;
     display: none;
-    padding-top: 100px;
+    /* padding-top: 50px; */
     height: 100%;
 }
 
-#Focus {
+#Wrapper {
     background-color: #ff2525;
-}
-
-#Pause {
-    background-color: #48c348;
-}
-
-#LongPause {
-    background-color: #417be7;
-}
-
-.inner {
-    text-align: center;
-}
-
-.outer {
     width: 100%;
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 
-.tenpxpadding {
-    font-size: 75px;
-    /* margin: 100px; */
+.centerVertical{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .pauseButton {
@@ -93,8 +71,8 @@ h1 {
     display: inline-block;
     cursor: pointer;
     color: #2a2a2a;
-    font-size: 18px;
-    padding: 16px 18px;
+    font-size: medium;
+    /* padding: 16px 18px; */
     text-decoration: none;
     border-width: 0px;
 }
@@ -108,93 +86,89 @@ h1 {
     top: 1px;
 }
 
-.startButton {
-    background-color: #35de92;
+.timerButton {
     border-radius: 8px;
     display: inline-block;
     cursor: pointer;
     color: #2a2a2a;
-    font-size: 18px;
-    padding: 16px 18px;
+    font-size: medium;
+    padding: 0.6em;
     text-decoration: none;
     border-width: 0px;
 }
 
-.startButton:hover {
+#startButton{
+    background-color: #35de92;
+}
+
+#startButton:hover {
     background-color: #00b865;
 }
 
-.startButton:active {
+#startButton:active {
     position: relative;
     top: 1px;
 }
 
-.stopButton {
+#pauseButton {
+    background-color: #ffd900;
+    color: #2a2a2a;
+}
+
+#pauseButton:hover {
+    background-color: #ffa200;
+}
+
+#pauseButton:active {
+    position: relative;
+    top: 1px;
+}
+
+#stopButton {
     background-color: #d61717;
-    border-radius: 8px;
-    display: inline-block;
-    cursor: pointer;
     color: #ffffff;
-    font-size: 18px;
-    padding: 16px 18px;
-    text-decoration: none;
-    border-width: 0px;
 }
 
-.stopButton:hover {
+#stopButton:hover {
     background-color: #990000;
-}
+}   
 
-.stopButton:active {
+#stopButton:active {
     position: relative;
     top: 1px;
-}
+}   
 
-.resetButton {
+#resetButton {
     background-color: #2591d9;
-    border-radius: 8px;
-    display: inline-block;
-    cursor: pointer;
     color: #ffffff;
-    font-size: 18px;
-    padding: 16px 18px;
-    text-decoration: none;
-    border-width: 0px;
 }
 
-.resetButton:hover {
+#resetButton:hover {
     background-color: #006b8f;
 }
 
-.resetButton:active {
+#resetButton:active {
     position: relative;
     top: 1px;
 }
 
-#FocusTimer .values {
-    background-color: #ff6f6f;
+#timerValues {
     border-radius: 10px;
-    margin: 0px auto 20px auto;
+    margin: 15px auto 15px auto;
     width: fit-content;
-    padding: 15px;
-}
-
-#PauseTimer .values {
-    background-color: #76e476;
-    border-radius: 10px;
-    margin: 0px auto 20px auto;
-    width: fit-content;
-    padding: 15px;
-}
-
-#LongPauseTimer .values {
-    background-color: #88adf1;
-    border-radius: 10px;
-    margin: 0px auto 20px auto;
-    width: fit-content;
-    padding: 15px;
+    padding: 10px;
+    font-size: 3em;
 }
 
 #player {
-    padding-top: 20px;
+    margin-left: 50px;
+    border-radius: 10px;
+}
+
+#pinInPlace {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
 }
