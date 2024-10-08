@@ -87,13 +87,13 @@ p {
 }
 
 .timerButton {
-    border-radius: 8px;
+    border-radius: 10px;
+    border-style:hidden;
     display: inline-block;
     cursor: pointer;
     color: #2a2a2a;
     font-size: medium;
     padding: 0.6em;
-    text-decoration: none;
     border-width: 0px;
 }
 
@@ -160,8 +160,11 @@ p {
     font-size: 3em;
 }
 
+#Timer {
+    margin-right: 50px;
+}
+
 #player {
-    margin-left: 50px;
     border-radius: 10px;
 }
 
@@ -171,4 +174,53 @@ p {
     left: 0;
     z-index: 999;
     width: 100%;
+}
+
+#loadVideoForm {
+    margin-top: 0.4em;
+    display: flex;
+    width:auto;
+    align-items: center;
+    justify-content: space-between;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.501)
+}
+
+#loadVideoForm input{
+    width:74%;
+    font-size: medium;
+    padding: 0.55em;
+    border-radius: 10px;
+    border-width: 0px;
+    background-color: #ff6f6f;
+    color: white;
+}
+
+#loadVideoForm input:focus{
+    outline:none;
+    border-width: 1px;
+    border-style:solid;
+    border-color: #d71e1e
+}
+
+#loadVideoForm button{
+    width: auto;
+    border-radius: 10px;
+    border-width: 0px;
+    padding: 0.6em;
+    font-size: medium;
+    background-color: #d61717;
+    color: white;
+    cursor: pointer;
+}
+
+#loadVideoForm button:hover{
+    background-color: #990000;
+}
+
+#loadVideoForm button:active{
+    position: relative;
+    top: 1px;
 }

@@ -7,6 +7,7 @@ var bell = new Audio("assets/audio/zapsplat_bells_small_timer_ping_constant_loop
 var click = new Audio("assets/audio/click.mp3")
 var activePage = ""
 var activeTimer = ""
+var player;
 
 var content = {
     "Focus": ["Focus", "Focus on your task of choice!", "#ff2525", "#ff6f6f", "25:00", 25],
@@ -141,7 +142,7 @@ function setTimerValues(){
     document.getElementById("timerValues").innerHTML = getTimerValues();
 }
     
-
+/* var player;
 function loadVideo() {
     window.YT.ready(function() {
       new window.YT.Player("player", {
@@ -170,11 +171,59 @@ $(document).ready(function() {
 $.getScript("https://www.youtube.com/iframe_api", function() {
     loadVideo();
 });
+}); */
+
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+function onYouTubeIframeAPIReady() {
+player = new YT.Player('player', {
+    height: "350",
+    width: "500",
+    videoId: "jfKfPfyJRdk",
+    playerVars: { 'autoplay': 1, 'controls': 0},
+    events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
+    }
 });
+}
+
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+
+function onPlayerStateChange(event) {
+var videoStatuses = Object.entries(window.YT.PlayerState)
+event.target.setVolume(25);
+}
 
 function updateTitle(){
     document.title = activeTimer + ": " + timer.getTimeValues().toString(['minutes', 'seconds']);
 }
+
+function getIdFromLink(){
+    url = String(document.getElementById("youtubeLink").value)
+    
+    var i, r, rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+
+    r = url.match(rx);
+    if(r != null){
+        var id = r[1]
+        player.loadVideoById(id)
+    } else {
+        console.log("No id found. URL was: " + url)
+    }
+}
+
+document.getElementById("youtubeSubmit").addEventListener("click", function() {
+    getIdFromLink();
+}, false);
 
   // Get the element with id="defaultOpen" and click on it
 openPage("Focus")
