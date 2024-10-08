@@ -8,17 +8,42 @@ var click = new Audio("assets/audio/click.mp3")
 var activePage = ""
 var activeTimer = ""
 var player;
+var loadButtonClicked = false;
 
 var content = {
-    "Focus": ["Focus", "Focus on your task of choice!", "#ff2525", "#ff6f6f", "25:00", 25],
-    "Pause": ["Short Break", "Time for a little break!", "#48c348", " #76e476", "05:00", 5],
-    "LongPause": ["Long Break", "Time for a deserved long break!", "#417be7", "#88adf1", "15:00", 15]
+    "Focus": {
+        "title": "Focus", 
+        "subtitle": "Focus on your task of choice!", 
+        "backgroundColor": "#ff2525", 
+        "timerColor": "#ff6f6f", 
+        "timerDefaultString": "25:00", 
+        "timerDuration": 25,
+        "loadVideoBtnColor": "#d61717"
+    },
+    "Pause": {
+        "title": "Short Break", 
+        "subtitle": "Time for a little break!", 
+        "backgroundColor": "#48c348", 
+        "timerColor": "#76e476", 
+        "timerDefaultString": "05:00", 
+        "timerDuration": 5,
+        "loadVideoBtnColor": "#369536"
+    },
+    "LongPause": {
+        "title": "Long Break", 
+        "subtitle": "Time for a deserved long break!", 
+        "backgroundColor": "#417be7", 
+        "timerColor": "#88adf1", 
+        "timerDefaultString": "15:00", 
+        "timerDuration": 15,
+        "loadVideoBtnColor": "#2d55a2"
+    }
 }
 
 function startTimer(type){
     if(activeTimer != type || !(timer.isRunning() || timer.isPaused())){
         timer.stop();
-        timer.start({countdown: true, precision: 'seconds', startValues: {minutes: content[type][5]}});
+        timer.start({countdown: true, precision: 'seconds', startValues: {minutes: content[type]['timerDuration']}});
     } else {
         timer.start()
     }
@@ -28,13 +53,10 @@ function startTimer(type){
 $('#startButton').click(function () {
     if (activePage == "Focus") {
         startTimer("Focus")
-        //console.log("Focus Timer Started")
     } else if (activePage == "Pause") {
         startTimer("Pause")
-        //console.log("Pause Timer Started")
     } else if (activePage == "LongPause") {
         startTimer("LongPause")
-        //console.log("Long Pause Timer Started")
     }
     click.play()
 });
@@ -42,7 +64,6 @@ $('#startButton').click(function () {
 $('#pauseButton').click(function () {
     if(activePage == activeTimer){
         timer.pause();
-        //console.log("Paused")
     }
 });
 
@@ -50,7 +71,6 @@ $('#stopButton').click(function () {
     if(activePage == activeTimer && (timer.isRunning() || timer.isPaused())){
         timer.stop();
         setTimerValues()
-        //console.log("Stopped")
     }
 });
 
@@ -58,7 +78,6 @@ $('#resetButton').click(function () {
     if(activePage == activeTimer && (timer.isRunning() || timer.isPaused())){
         timer.reset();
         setTimerValues()
-        //console.log("Reset")
     }
 });
 
@@ -102,7 +121,7 @@ timer.addEventListener('started', function (e) {
 function openPage(pageName) {
   
     // Remove white background, make it match color of the button
-    document.getElementsByTagName("body")[0].style.background = content[pageName][2];
+    document.getElementsByTagName("body")[0].style.background = content[pageName]['backgroundColor'];
 
     document.getElementById("pause").style.borderRadius = "0px";
     document.getElementById("focus").style.borderRadius = "0px";
@@ -119,11 +138,15 @@ function openPage(pageName) {
 
     
     // Change color and text based on the mode
-    document.getElementById("modeTitle").innerHTML = content[pageName][0];
-    document.getElementById("subtitle").innerHTML = content[pageName][1];
-    document.getElementById("Wrapper").style.background = content[pageName][2];
-    document.getElementById("timerValues").style.background = content[pageName][3];
-    document.getElementById("pinInPlace").style.background = content[pageName][2];
+    document.getElementById("modeTitle").innerHTML = content[pageName]['title'];
+    document.getElementById("subtitle").innerHTML = content[pageName]['subtitle'];
+    document.getElementById("Wrapper").style.background = content[pageName]['backgroundColor'];
+    document.getElementById("timerValues").style.background = content[pageName]['timerColor'];
+    document.getElementById("pinInPlace").style.background = content[pageName]['backgroundColor'];
+    document.getElementById("youtubeLink").style.background = content[pageName]['timerColor'];
+    document.getElementById("youtubeLink").style.borderColor = content[pageName]['backgroundColor'];
+    document.getElementsByClassName("youtubeSubmit")[0].style.background = content[pageName]['loadVideoBtnColor'];
+
 
     activePage = pageName
     setTimerValues();
@@ -135,43 +158,12 @@ function getTimerValues(){
             return timer.getTimeValues().toString(['minutes', 'seconds']);
         } 
     }
-    return content[activePage][4];
+    return content[activePage]['timerDefaultString'];
 }
 
 function setTimerValues(){
     document.getElementById("timerValues").innerHTML = getTimerValues();
 }
-    
-/* var player;
-function loadVideo() {
-    window.YT.ready(function() {
-      new window.YT.Player("player", {
-        height: "350",
-        width: "500",
-        videoId: "jfKfPfyJRdk",
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange
-        }
-      });
-    });
-  
-    function onPlayerReady(event) {
-        event.target.playVideo();
-      }
-  
-    function onPlayerStateChange(event) {
-      var videoStatuses = Object.entries(window.YT.PlayerState)
-      event.target.setVolume(25);
-    }
-  }
-  
-$(document).ready(function() {
-
-$.getScript("https://www.youtube.com/iframe_api", function() {
-    loadVideo();
-});
-}); */
 
 var tag = document.createElement('script');
 
@@ -186,7 +178,7 @@ player = new YT.Player('player', {
     height: "350",
     width: "500",
     videoId: "jfKfPfyJRdk",
-    playerVars: { 'autoplay': 1, 'controls': 0},
+    playerVars: { 'autoplay': 1},
     events: {
         onReady: onPlayerReady,
         onStateChange: onPlayerStateChange
@@ -215,15 +207,73 @@ function getIdFromLink(){
     r = url.match(rx);
     if(r != null){
         var id = r[1]
-        player.loadVideoById(id)
+        return [id, true]
     } else {
-        console.log("No id found. URL was: " + url)
+        return ["",false]
     }
 }
 
-document.getElementById("youtubeSubmit").addEventListener("click", function() {
-    getIdFromLink();
-}, false);
+let btn = document.querySelector(".youtubeSubmit"),
+                spinIcon = document.querySelector(".spinner"),
+                btnText = document.querySelector(".btn-text");
+
+btn.addEventListener("click", () => {
+    if(document.getElementById("youtubeLink").value == ""){
+        document.getElementById("youtubeLink").placeholder = "This field must contain a URL!"
+        return;
+    }
+
+    if(!loadButtonClicked){
+        var id = getIdFromLink()
+        if(!id[1]){
+            document.getElementById("youtubeLink").value = ""
+            document.getElementById("youtubeLink").placeholder = "Oops! This link seems to be broken, try a new one!"
+            return;
+        }
+
+        loadButtonClicked = true;
+
+        btn.style.cursor = "wait";
+        btn.classList.add("checked");
+        spinIcon.classList.add("spin");
+        btnText.textContent = "Loading";
+
+        setTimeout(() => {
+            spinIcon.classList.replace("spinner", "check");
+            spinIcon.classList.replace("fa-circle-notch", "fa-check");
+            btnText.textContent = "All done!";
+            btn.style.cursor = "pointer"
+            player.loadVideoById(id[0]);
+            document.getElementById("youtubeLink").placeholder = "Tired of Lofi? Paste the Youtube URL here"
+        }, 1500) //1s = 1000ms
+
+        setTimeout(() => {
+            setVideoButton()
+            loadButtonClicked = false;
+        }, 3000)
+    }
+});
+
+var text = document.getElementById("youtubeLink")
+text.addEventListener("focus", () => {
+    text.style.borderColor = content[activePage]['loadVideoBtnColor'];
+});
+
+text.addEventListener("focusout", () => {
+    text.style.borderColor = content[activePage]['timerColor'];
+});
+
+function setVideoButton(){
+    let btn = document.querySelector(".youtubeSubmit")
+        spinIcon = document.querySelector(".check"),
+        btnText = document.querySelector(".btn-text");
+
+    btn.classList.remove("checked");
+    spinIcon.classList.remove("spin");
+    spinIcon.classList.replace("check", "spinner");
+    spinIcon.classList.replace("fa-check", "fa-circle-notch");
+    btnText.textContent = "Load Video";
+}
 
   // Get the element with id="defaultOpen" and click on it
 openPage("Focus")
